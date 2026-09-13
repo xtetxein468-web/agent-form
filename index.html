@@ -5,17 +5,91 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Football Agent Registration</title>
     <style>
-        * { box-sizing: border-box; font-family: Arial, sans-serif; }
-        body { background-color: #f4f6f9; margin: 0; padding: 20px; }
-        .container { max-width: 600px; margin: 0 auto; background: #fff; padding: 25px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        h2 { color: #1e3c72; text-align: center; }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; font-weight: bold; }
-        input, select, textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; }
-        button { background: #28a745; color: white; border: none; padding: 12px; width: 100%; border-radius: 5px; font-size: 16px; cursor: pointer; font-weight: bold; }
+        * { 
+            box-sizing: border-box; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+        }
+        body { 
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); 
+            margin: 0; 
+            padding: 40px 20px; 
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container { 
+            max-width: 550px; 
+            width: 100%;
+            background: rgba(255, 255, 255, 0.96); 
+            padding: 35px 30px; 
+            border-radius: 16px; 
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4); 
+            backdrop-filter: blur(10px);
+        }
+        h2 { 
+            color: #0f2027; 
+            text-align: center; 
+            margin-top: 0;
+            margin-bottom: 25px;
+            font-size: 24px;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid #203a43;
+            padding-bottom: 12px;
+        }
+        .form-group { 
+            margin-bottom: 20px; 
+        }
+        label { 
+            display: block; 
+            margin-bottom: 8px; 
+            font-weight: 600; 
+            color: #333;
+            font-size: 14px;
+        }
+        input, select, textarea { 
+            width: 100%; 
+            padding: 12px 14px; 
+            border: 1px solid #cccccc; 
+            border-radius: 8px; 
+            font-size: 15px;
+            outline: none;
+            transition: all 0.3s ease;
+            background: #fafafa;
+        }
+        input:focus, select:focus, textarea:focus {
+            border-color: #203a43;
+            box-shadow: 0 0 8px rgba(32, 58, 67, 0.25);
+            background: #ffffff;
+        }
+        button { 
+            background: linear-gradient(135deg, #11998e, #38ef7d); 
+            color: white; 
+            border: none; 
+            padding: 14px; 
+            width: 100%; 
+            border-radius: 8px; 
+            font-size: 17px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            box-shadow: 0 4px 15px rgba(56, 239, 125, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 10px;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(56, 239, 125, 0.4);
+        }
+        button:disabled {
+            background: #cccccc;
+            box-shadow: none;
+            cursor: not-allowed;
+            transform: none;
+        }
     </style>
 </head>
 <body>
+
 <div class="container">
     <h2>Football Site Agent လျှောက်လွှာ</h2>
     <form id="agentForm">
@@ -41,7 +115,7 @@
         </div>
         <div class="form-group">
             <label>ဖြည့်စွက်ပြောကြားလိုသည့် အချက်များ</label>
-            <textarea id="note" rows="3"></textarea>
+            <textarea id="note" rows="3" placeholder="ဖြည့်စွက်လိုသည်များကို ရေးသားနိုင်ပါသည်"></textarea>
         </div>
         <button type="submit" id="submitBtn">လျှောက်လွှာ တင်မည်</button>
     </form>
@@ -49,6 +123,7 @@
 
 <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxvMyzodRLDoGvKzvmTRUFhCgzknzGTwJkmTWPXVQfgXjKGuiTCBmen57Yh3bpgh-8P/exec";
+
     document.getElementById('agentForm').addEventListener('submit', function(e) {
         e.preventDefault();
         const btn = document.getElementById('submitBtn');
@@ -78,5 +153,6 @@
         });
     });
 </script>
+
 </body>
 </html>
