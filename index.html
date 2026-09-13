@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PWE KAUNG - Agent Registration</title>
     
-    <!-- Browser Tab Icon (Favicon) ထည့်သွင်းခြင်း -->
-    <link rel="icon" type="image/png" href="logo.png">
+    <!-- Dynamic Favicon -->
+    <link id="dynamicFavicon" rel="icon" type="image/png" href="logo.png">
 
     <style>
         * { 
@@ -114,7 +114,7 @@
 
 <div class="container">
     <div class="header-title">
-        <img src="logo.png" alt="PWE KAUNG Logo" class="logo">
+        <img id="siteLogo" src="logo.png" alt="PWE KAUNG Logo" class="logo">
         <h2>Football Site Agent လျှောက်လွှာ</h2>
     </div>
     
@@ -149,6 +149,17 @@
 
 <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxvMyzodRLDoGvKzvmTRUFhCgzknzGTwJkmTWPXVQfgXjKGuiTCBmen57Yh3bpgh-8P/exec";
+
+    // Google Sheet ထဲမှ Logo Link ကို Auto ဆွဲယူခြင်း
+    fetch(SCRIPT_URL)
+        .then(res => res.json())
+        .then(resData => {
+            if (resData.logoUrl && resData.logoUrl.trim() !== "") {
+                document.getElementById('siteLogo').src = resData.logoUrl;
+                document.getElementById('dynamicFavicon').href = resData.logoUrl;
+            }
+        })
+        .catch(err => console.log("Default logo used"));
 
     document.getElementById('agentForm').addEventListener('submit', function(e) {
         e.preventDefault();
