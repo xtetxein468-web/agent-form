@@ -10,13 +10,15 @@
         .container { max-width: 1000px; margin: 0 auto; background: #fff; padding: 25px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         h2 { color: #1e3c72; text-align: center; }
         table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; font-size: 14px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; font-size: 14px; word-break: break-word; }
         th { background-color: #1e3c72; color: white; }
         tr:nth-child(even) { background-color: #f9f9f9; }
         .login-box { max-width: 350px; margin: 50px auto; text-align: center; }
         input { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 5px; }
         button { background: #1e3c72; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px; font-weight: bold; }
+        button:hover { background: #2a5298; }
         .loading { text-align: center; color: #666; font-weight: bold; padding: 10px; }
+        .refresh-btn { margin-bottom: 10px; }
     </style>
 </head>
 <body>
@@ -24,13 +26,13 @@
 <div class="container">
     <div id="loginSection" class="login-box">
         <h2>Owner Dashboard</h2>
-        <input type="password" id="passcode" placeholder="Passcode ရိုက်ထည့်ပါ">
+        <input type="password" id="passcode" placeholder="Passcode ရိုက်ထည့်ပါ" onkeypress="handleKeyPress(event)">
         <button onclick="checkPasscode()">Login</button>
     </div>
 
     <div id="dataSection" style="display: none;">
         <h2>Agent လျှောက်ထားသူများ စာရင်း</h2>
-        <button onclick="fetchData()">စာရင်း အသစ်ယူရန် (Refresh)</button>
+        <button class="refresh-btn" onclick="fetchData()">စာရင်း အသစ်ယူရန် (Refresh)</button>
         <div id="statusMessage" class="loading" style="display:none;">စာရင်းများ ဆွဲယူနေပါသည်...</div>
         <div style="overflow-x: auto;">
             <table id="dataTable">
@@ -54,6 +56,12 @@
 <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxvMyzodRLDoGvKzvmTRUFhCgzknzGTwJkmTWPXVQfgXjKGuiTCBmen57Yh3bpgh-8P/exec";
     const OWNER_PASSCODE = "1234";
+
+    function handleKeyPress(e) {
+        if (e.key === 'Enter') {
+            checkPasscode();
+        }
+    }
 
     function checkPasscode() {
         const input = document.getElementById('passcode').value;
@@ -96,13 +104,29 @@
                 const row = data[i];
                 const tr = document.createElement('tr');
                 
-                let dateStr = row[0] ? new Date(row[0]).toLocaleString('my-MM') : '';
+                // Format Date safely
+                let dateStr = '';
+                if (row[0]) {
+                    try {
+                        let d = new Date(row[0]);
+                        dateStr = isNaN(d.getTime()) ? row[0] : d.toLocaleString();
+                    } catch(e) {
+                        dateStr = row[0];
+                    }
+                }
                 
+                // Format FB Link
+                let fbUrl = row[3] || '';
+                let fbDisplay = fbUrl;
+                if (fbUrl && !fbUrl.startsWith('http://') && !fbUrl.startsWith('https://')) {
+                    fbUrl = 'https://' + fbUrl;
+                }
+
                 tr.innerHTML = `
                     <td>${dateStr}</td>
                     <td>${row[1] || ''}</td>
                     <td>${row[2] || ''}</td>
-                    <td><a href="${row[3]}" target="_blank" rel="noopener">${row[3] || ''}</a></td>
+                    <td>${fbDisplay ? `<a href="${fbUrl}" target="_blank" rel="noopener">${fbDisplay}</a>` : ''}</td>
                     <td>${row[4] || ''}</td>
                     <td>${row[5] || ''}</td>
                 `;
