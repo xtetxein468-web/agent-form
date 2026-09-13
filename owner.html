@@ -14,8 +14,9 @@
         th { background-color: #1e3c72; color: white; }
         tr:nth-child(even) { background-color: #f9f9f9; }
         .login-box { max-width: 350px; margin: 50px auto; text-align: center; }
-        input { width: 100%; padding: 10px; margin-bottom: 10px; }
-        button { background: #1e3c72; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px; }
+        input { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 5px; }
+        button { background: #1e3c72; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px; font-weight: bold; }
+        .loading { text-align: center; color: #666; font-weight: bold; padding: 10px; }
     </style>
 </head>
 <body>
@@ -30,6 +31,7 @@
     <div id="dataSection" style="display: none;">
         <h2>Agent လျှောက်ထားသူများ စာရင်း</h2>
         <button onclick="fetchData()">စာရင်း အသစ်ယူရန် (Refresh)</button>
+        <div id="statusMessage" class="loading" style="display:none;">စာရင်းများ ဆွဲယူနေပါသည်...</div>
         <div style="overflow-x: auto;">
             <table id="dataTable">
                 <thead>
@@ -65,39 +67,53 @@
     }
 
     function fetchData() {
-        fetch(SCRIPT_URL + "?action=read")
-            .then(res => res.json())
-            .then(data => {
-                const tbody = document.querySelector('#dataTable tbody');
-                tbody.innerHTML = '';
-                
-                if (!data || data.length <= 1) {
-                    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">စာရင်းများ မရှိသေးပါ</td></tr>';
-                    return;
-                }
+        const statusMsg = document.getElementById('statusMessage');
+        statusMsg.style.display = 'block';
+        statusMsg.innerText = 'စာရင်းများ ဆွဲယူနေပါသည်...';
 
-                // Skip row 0 (headers)
-                for (let i = 1; i < data.length; i++) {
-                    const row = data[i];
-                    const tr = document.createElement('tr');
-                    
-                    let dateStr = row[0] ? new Date(row[0]).toLocaleString() : '';
-                    
-                    tr.innerHTML = `
-                        <td>${dateStr}</td>
-                        <td>${row[1] || ''}</td>
-                        <td>${row[2] || ''}</td>
-                        <td><a href="${row[3]}" target="_blank">${row[3] || ''}</a></td>
-                        <td>${row[4] || ''}</td>
-                        <td>${row[5] || ''}</td>
-                    `;
-                    tbody.appendChild(tr);
-                }
-            })
-            .catch(err => {
-                console.error(err);
-                alert("စာရင်းဆွဲယူရာတွင် အမှားတစ်ခု ဖြစ်ပေါ်နေပါသည်။");
-            });
+        fetch(SCRIPT_URL, {
+            method: 'GET',
+            redirect: 'follow'
+        })
+        .then(res => {
+            if (!res.ok) {
+                throw new Error("Network response was not ok");
+            }
+            return res.json();
+        })
+        .then(data => {
+            statusMsg.style.display = 'none';
+            const tbody = document.querySelector('#dataTable tbody');
+            tbody.innerHTML = '';
+            
+            if (!data || data.length <= 1) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">စာရင်းများ မရှိသေးပါ</td></tr>';
+                return;
+            }
+
+            // Skip row 0 (Headers)
+            for (let i = 1; i < data.length; i++) {
+                const row = data[i];
+                const tr = document.createElement('tr');
+                
+                let dateStr = row[0] ? new Date(row[0]).toLocaleString('my-MM') : '';
+                
+                tr.innerHTML = `
+                    <td>${dateStr}</td>
+                    <td>${row[1] || ''}</td>
+                    <td>${row[2] || ''}</td>
+                    <td><a href="${row[3]}" target="_blank" rel="noopener">${row[3] || ''}</a></td>
+                    <td>${row[4] || ''}</td>
+                    <td>${row[5] || ''}</td>
+                `;
+                tbody.appendChild(tr);
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            statusMsg.style.display = 'block';
+            statusMsg.innerText = 'စာရင်းဆွဲယူရာတွင် အမှားတစ်ခု ဖြစ်ပေါ်နေပါသည်။ Google Script Deployment URL မှန်မမှန် ပြန်စစ်ပေးပါ။';
+        });
     }
 </script>
 
