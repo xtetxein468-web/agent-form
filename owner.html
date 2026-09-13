@@ -65,18 +65,22 @@
     }
 
     function fetchData() {
-        fetch(SCRIPT_URL)
+        fetch(SCRIPT_URL + "?action=read")
             .then(res => res.json())
             .then(data => {
                 const tbody = document.querySelector('#dataTable tbody');
                 tbody.innerHTML = '';
                 
+                if (!data || data.length <= 1) {
+                    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">စာရင်းများ မရှိသေးပါ</td></tr>';
+                    return;
+                }
+
                 // Skip row 0 (headers)
                 for (let i = 1; i < data.length; i++) {
                     const row = data[i];
                     const tr = document.createElement('tr');
                     
-                    // Format date
                     let dateStr = row[0] ? new Date(row[0]).toLocaleString() : '';
                     
                     tr.innerHTML = `
@@ -90,7 +94,10 @@
                     tbody.appendChild(tr);
                 }
             })
-            .catch(err => alert("စာရင်းဆွဲယူရာတွင် အမှားတစ်ခု ဖြစ်ပေါ်နေပါသည်။"));
+            .catch(err => {
+                console.error(err);
+                alert("စာရင်းဆွဲယူရာတွင် အမှားတစ်ခု ဖြစ်ပေါ်နေပါသည်။");
+            });
     }
 </script>
 
