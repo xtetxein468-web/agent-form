@@ -3,125 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Football Agent Registration System</title>
+    <title>Football Agent Registration</title>
     <style>
         * { box-sizing: border-box; font-family: Arial, sans-serif; }
-        body { background-color: #f4f6f9; margin: 0; padding: 20px; color: #333; }
-        .container { max-width: 800px; margin: 0 auto; background: #fff; padding: 25px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        h2 { color: #1e3c72; text-align: center; margin-bottom: 20px; }
-        
-        .nav-tabs { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 2px solid #ddd; }
-        .tab-btn { padding: 10px 20px; border: none; background: #e0e0e0; cursor: pointer; border-radius: 5px 5px 0 0; font-weight: bold; }
-        .tab-btn.active { background: #1e3c72; color: white; }
-        
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
-        
+        body { background-color: #f4f6f9; margin: 0; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; background: #fff; padding: 25px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        h2 { color: #1e3c72; text-align: center; }
         .form-group { margin-bottom: 15px; }
         label { display: block; margin-bottom: 5px; font-weight: bold; }
-        input, select, textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px; }
-        button.btn-submit { background: #28a745; color: white; border: none; padding: 12px; width: 100%; border-radius: 5px; font-size: 16px; cursor: pointer; font-weight: bold; }
-        button.btn-submit:hover { background: #218838; }
-
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; font-size: 14px; }
-        th { background-color: #1e3c72; color: white; }
-        tr:nth-child(even) { background-color: #f9f9f9; }
-        
-        .login-box { max-width: 400px; margin: 0 auto; text-align: center; }
+        input, select, textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; }
+        button { background: #28a745; color: white; border: none; padding: 12px; width: 100%; border-radius: 5px; font-size: 16px; cursor: pointer; font-weight: bold; }
     </style>
 </head>
 <body>
-
 <div class="container">
-    <div class="nav-tabs">
-        <button class="tab-btn active" onclick="switchTab('apply')">Agent လျှောက်လွှာ (Form)</button>
-        <button class="tab-btn" onclick="switchTab('dashboard')">Owner Dashboard</button>
-    </div>
-
-    <div id="apply" class="tab-content active">
-        <h2>Football Site Agent လျှောက်လွှာ</h2>
-        <form id="agentForm" onsubmit="handleFormSubmit(event)">
-            <div class="form-group">
-                <label for="name">အမည် *</label>
-                <input type="text" id="name" required placeholder="သင့်အမည် ရိုက်ထည့်ပါ">
-            </div>
-            <div class="form-group">
-                <label for="phone">ဖုန်းနံပါတ် *</label>
-                <input type="tel" id="phone" required placeholder="09xxxxxxxxx">
-            </div>
-            <div class="form-group">
-                <label for="fbLink">Facebook Account Link / Profile Name *</label>
-                <input type="text" id="fbLink" required placeholder="https://facebook.com/yourprofile">
-            </div>
-            <div class="form-group">
-                <label for="experience">အေးဂျင့်လုပ်ဖူးခြင်း အတွေ့အကြုံ</label>
-                <select id="experience">
-                    <option value="မရှိဖူးပါ (နားလည်အောင် သင်ယူမည်)">မရှိဖူးပါ (နားလည်အောင် သင်ယူမည်)</option>
-                    <option value="၁ နှစ်အောက်">၁ နှစ်အောက်</option>
-                    <option value="၁ နှစ်ထက်မက (အတွေ့အကြုံရှိ)">၁ နှစ်ထက်မက (အတွေ့အကြုံရှိ)</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="note">ဖြည့်စွက်ပြောကြားလိုသည့် အချက်များ</label>
-                <textarea id="note" rows="3" placeholder="စာကျန်များရှိပါက ရေးခဲ့ပါ"></textarea>
-            </div>
-            <button type="submit" class="btn-submit">လျှောက်လွှာ တင်မည်</button>
-        </form>
-    </div>
-
-    <div id="dashboard" class="tab-content">
-        <h2>Owner Dashboard (Agent လျှောက်ထားသူများ စာရင်း)</h2>
-        
-        <div id="loginSection" class="login-box">
-            <p>Dashboard ကြည့်ရှုရန် Owner Passcode ရိုက်ထည့်ပါ</p>
-            <input type="password" id="passcode" placeholder="Passcode (Default: 1234)" style="margin-bottom: 10px;">
-            <button class="btn-submit" onclick="checkPasscode()" style="background: #1e3c72;">Login</button>
+    <h2>Football Site Agent လျှောက်လွှာ</h2>
+    <form id="agentForm">
+        <div class="form-group">
+            <label>အမည် *</label>
+            <input type="text" id="name" required placeholder="သင့်အမည် ရိုက်ထည့်ပါ">
         </div>
-
-        <div id="dataSection" style="display: none;">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <p><strong>စုစုပေါင်း လျှောက်ထားသူ: <span id="totalCount">0</span> ဦး</strong></p>
-                <button onclick="clearData()" style="background: #dc3545; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer;">စာရင်းများ အားလုံးဖျက်ရန်</button>
-            </div>
-            <div style="overflow-x: auto;">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>ရက်စွဲ</th>
-                            <th>အမည်</th>
-                            <th>ဖုန်းနံပါတ်</th>
-                            <th>FB Link</th>
-                            <th>အတွေ့အကြုံ</th>
-                            <th>အသေးစိတ်</th>
-                        </tr>
-                    </thead>
-                    <tbody id="applicantTableBody">
-                    </tbody>
-                </table>
-            </div>
+        <div class="form-group">
+            <label>ဖုန်းနံပါတ် *</label>
+            <input type="tel" id="phone" required placeholder="09xxxxxxxxx">
         </div>
-    </div>
+        <div class="form-group">
+            <label>Facebook Account Link / Profile Name *</label>
+            <input type="text" id="fbLink" required placeholder="https://facebook.com/yourprofile">
+        </div>
+        <div class="form-group">
+            <label>အေးဂျင့်လုပ်ဖူးခြင်း အတွေ့အကြုံ</label>
+            <select id="experience">
+                <option value="မရှိဖူးပါ">မရှိဖူးပါ (နားလည်အောင် သင်ယူမည်)</option>
+                <option value="၁ နှစ်အောက်">၁ နှစ်အောက်</option>
+                <option value="၁ နှစ်ထက်မက">၁ နှစ်ထက်မက (အတွေ့အကြုံရှိ)</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>ဖြည့်စွက်ပြောကြားလိုသည့် အချက်များ</label>
+            <textarea id="note" rows="3"></textarea>
+        </div>
+        <button type="submit" id="submitBtn">လျှောက်လွှာ တင်မည်</button>
+    </form>
 </div>
 
 <script>
-    const PASSCODE = "1234"; 
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwpRGVqRDqfhFnMUCGTtCJsmWem2Bc7lsKXi98iX4z66Dz6D7_gmBFyq9iWqICKl6mjlw/exec";
 
-    function switchTab(tabId) {
-        document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-        document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-        
-        document.getElementById(tabId).classList.add('active');
-        event.currentTarget.classList.add('active');
-    }
-
-    function handleFormSubmit(e) {
+    document.getElementById('agentForm').addEventListener('submit', function(e) {
         e.preventDefault();
-        
-        const newApplicant = {
-            id: Date.now(),
-            date: new Date().toLocaleString('my-MM'),
+        const btn = document.getElementById('submitBtn');
+        btn.disabled = true;
+        btn.innerText = "ခဏစောင့်ပါ...";
+
+        const payload = {
             name: document.getElementById('name').value,
             phone: document.getElementById('phone').value,
             fbLink: document.getElementById('fbLink').value,
@@ -129,60 +64,20 @@
             note: document.getElementById('note').value
         };
 
-        let applicants = JSON.parse(localStorage.getItem('agentApplications')) || [];
-        applicants.push(newApplicant);
-        localStorage.setItem('agentApplications', JSON.stringify(applicants));
-
-        alert("လျှောက်လွှာ အောင်မြင်စွာ ပေးပို့ပြီးပါပြီ။");
-        document.getElementById('agentForm').reset();
-    }
-
-    function checkPasscode() {
-        const inputPass = document.getElementById('passcode').value;
-        if (inputPass === PASSCODE) {
-            document.getElementById('loginSection').style.display = 'none';
-            document.getElementById('dataSection').style.display = 'block';
-            loadDashboardData();
-        } else {
-            alert("Passcode မှားယွင်းနေပါသည်။");
-        }
-    }
-
-    function loadDashboardData() {
-        const applicants = JSON.parse(localStorage.getItem('agentApplications')) || [];
-        const tableBody = document.getElementById('applicantTableBody');
-        document.getElementById('totalCount').innerText = applicants.length;
-        
-        tableBody.innerHTML = "";
-
-        if (applicants.length === 0) {
-            tableBody.innerHTML = `<tr><td colspan="7" style="text-align:center;">လျှောက်ထားသူ စာရင်း မရှိသေးပါ။</td></tr>`;
-            return;
-        }
-
-        applicants.reverse().forEach((item, index) => {
-            const row = `
-                <tr>
-                    <td>${index + 1}</td>
-                    <td>${item.date}</td>
-                    <td><strong>${item.name}</strong></td>
-                    <td><a href="tel:${item.phone}">${item.phone}</a></td>
-                    <td><a href="${item.fbLink}" target="_blank">Link ကြည့်မည်</a></td>
-                    <td>${item.experience}</td>
-                    <td>${item.note || '-'}</td>
-                </tr>
-            `;
-            tableBody.innerHTML += row;
+        fetch(SCRIPT_URL, {
+            method: 'POST',
+            body: JSON.stringify(payload)
+        })
+        .then(res => {
+            alert("လျှောက်လွှာ အောင်မြင်စွာ ပေးပို့ပြီးပါပြီ။");
+            document.getElementById('agentForm').reset();
+        })
+        .catch(err => alert("အမှားတစ်ခု ဖြစ်ပေါ်နေပါသည်။ ပြန်လည် ကြိုးစားပါ။"))
+        .finally(() => {
+            btn.disabled = false;
+            btn.innerText = "လျှောက်လွှာ တင်မည်";
         });
-    }
-
-    function clearData() {
-        if (confirm("စာရင်းများ အားလုံးကို ဖျက်ရန် သေချာပါသလား?")) {
-            localStorage.removeItem('agentApplications');
-            loadDashboardData();
-        }
-    }
+    });
 </script>
-
 </body>
 </html>
