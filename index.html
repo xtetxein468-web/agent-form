@@ -66,9 +66,13 @@
 
         fetch(SCRIPT_URL, {
             method: 'POST',
+            mode: 'no-cors',
+            headers: {
+                'Content-Type': 'application/json'
+            },
             body: JSON.stringify(payload)
         })
-        .then(res => {
+        .then(() => {
             alert("လျှောက်လွှာ အောင်မြင်စွာ ပေးပို့ပြီးပါပြီ။");
             document.getElementById('agentForm').reset();
         })
